@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/index.css">
+    <title>Submit an Event</title>
+</head>
+
+<body>
+    <form id="signup-form" @submit.prevent="processForm">
+
+        <% if(submission){ %>
+            <p>
+                <b>Error!</b>
+                You seem to have an error in your form, please fix it!<br>
+                Error Message: <%= message %>
+              </p>
+        <% } %>
+        <!-- name -->
+        <div class="field">
+            <label class="label">Full Name</label>
+            <input type="text" class="input" name="name" />
+        </div>
+
+        <!-- desc -->
+        <div class="field">
+            <label class="label">Description</label>
+            <input type="text" class="input" name="description" />
+        </div>
+
+        <!-- lat -->
+        <div class="field">
+            <label class="label">Latitude</label>
+            <input type="number" step="any" class="input" name="lat" />
+        </div>
+
+        <!-- long -->
+        <div class="field">
+            <label class="label">Longitude</label>
+            <input type="number" step="any" class="input" name="long" />
+        </div>
+
+        <!-- hours -->
+        <div class="field">
+            <label class="label">Hours</label>
+            <input type="text" class="input" name="hours" />
+        </div>
+
+        <!-- date -->
+        <div class="field">
+            <label class="label">Date</label>
+            <input type="date" class="input" name="date" />
+        </div>
+
+        <!-- time -->
+        <div class="field">
+            <label class="label">Time</label>
+            <input type="text" class="input" name="time" />
+        </div>
+
+        <!-- submit button -->
+        <div class="field">
+            <button type="submit" class="button">Submit</button>
+        </div>
+    </form>
+</body>
+
+</html>
