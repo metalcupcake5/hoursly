@@ -1,0 +1,6 @@
+module.exports = {
+    host: '', // host ip, localhost for a database on the hosting computer
+    user: '', // database username
+    pass: '909LuaRocks_', // database password 
+    name: 'communityappdatabase' // database name
+}
