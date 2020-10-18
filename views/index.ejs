@@ -11,6 +11,8 @@
 <body>
     <form id="signup-form" @submit.prevent="processForm">
 
+        <h2>Hoursly Event Submission Form</h2><br>
+
         <% if(submission){ %>
             <p>
                 <b>Error!</b>
@@ -18,6 +20,8 @@
                 Error Message: <%= message %>
               </p>
         <% } %>
+
+        <br>
         <!-- name -->
         <div class="field">
             <label class="label">Full Name</label>
