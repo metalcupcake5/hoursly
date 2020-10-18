@@ -19,13 +19,13 @@ app.all('/', async (req, res) => {
     const submission = dataLength > 0 ? true : false;
     const valid = dataLength == 7 ? true : false;
     if (submission && valid) {
-        await sql.query('SELECT * FROM locationsdata WHERE Latitude = ? AND Longitude = ?', [data.lat, data.long], (err, res) => {
+        await sql.query('SELECT * FROM locationsdata WHERE Latitude = ? AND Longitude = ?', [data.lat, data.long], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.render('index', { submission: true, message: "An error occured, please try again."});
             }
 
-            if (res.length !== 0) {
+            if (result.length !== 0) {
                 return res.render('index', { submission: true, message: "This spot is already taken! Please choose another!"});
             } else {
                 sql.query('INSERT INTO locationsdata(Name, Hours, Date, Time, Description, Longitude, Latitude) VALUES (?, ?, ?, ?, ?, ?, ?)', [data.name, data.hours, data.date, data.time, data.desc, data.lat, data.long]);
