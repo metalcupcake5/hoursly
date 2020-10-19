@@ -11,22 +11,15 @@ const con = mysql.createConnection({
 
 let sql = {};
 sql.query = function (query, params, callback) {
-    con.getConnection(function (err, connection) {
-        if (err) {
-            if (callback) callback(err, null, null);
+    con.query(query, params, function (error, results, fields) {
+        connection.release(); // always put connection back in pool after last query
+        if (error) {
+            if (callback) callback(error, null, null);
             return;
         }
-
-        connection.query(query, params, function (error, results, fields) {
-            connection.release(); // always put connection back in pool after last query
-            if (error) {
-                if (callback) callback(error, null, null);
-                return;
-            }
-            if (callback) callback(false, results, fields);
-        });
-        con.end();
+        if (callback) callback(false, results, fields);
     });
+    con.end();
 };
 
 module.exports = sql;
