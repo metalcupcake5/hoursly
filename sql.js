@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const config = require('./config');
 
-const pool = mysql.createPool({
+const con = mysql.createConnection({
     host: config.host,
     port: 3306,
     user: config.user,
@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 
 let sql = {};
 sql.query = function (query, params, callback) {
-    pool.getConnection(function (err, connection) {
+    con.getConnection(function (err, connection) {
         if (err) {
             if (callback) callback(err, null, null);
             return;
@@ -25,6 +25,7 @@ sql.query = function (query, params, callback) {
             }
             if (callback) callback(false, results, fields);
         });
+        con.end();
     });
 };
 
