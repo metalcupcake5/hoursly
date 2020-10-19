@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const config = require('./config');
 
-const con = mysql.createConnection({
+const pool = mysql.createPool({
     host: config.host,
     port: 3306,
     user: config.user,
@@ -11,14 +11,21 @@ const con = mysql.createConnection({
 
 let sql = {};
 sql.query = function (query, params, callback) {
-    con.query(query, params, function (error, results, fields) {
-        if (error) {
-            if (callback) callback(error, null, null);
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            if (callback) callback(err, null, null);
             return;
         }
-        if (callback) callback(false, results, fields);
+
+        connection.query(query, params, function (error, results, fields) {
+            connection.release(); // always put connection back in pool after last query
+            if (error) {
+                if (callback) callback(error, null, null);
+                return;
+            }
+            if (callback) callback(false, results, fields);
+        });
     });
-    con.end();
 };
 
 module.exports = sql;
