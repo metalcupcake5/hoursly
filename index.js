@@ -28,7 +28,15 @@ app.all('/', async (req, res) => {
             if (result.length !== 0) {
                 return res.render('index', { submission: true, message: "This spot is already taken! Please choose another!"});
             } else {
-                sql.query('INSERT INTO locationsdata(Name, Hours, Date, Time, Description, Longitude, Latitude) VALUES (?, ?, ?, ?, ?, ?, ?)', [data.name, data.hours, data.date, data.time, data.desc, data.lat, data.long]);
+                const input = {
+                    Name: data.name,
+                    Hours: data.hours,
+                    Time: data.time,
+                    Description: data.desc,
+                    Longitude: data.long,
+                    Latitude: data.lat
+                }
+                sql.query('INSERT INTO locationsdata SET ?', input);
                 return res.render('submit');
             }
         });
