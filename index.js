@@ -32,7 +32,7 @@ app.all('/', async (req, res) => {
                     Name: data.name,
                     Hours: data.hours,
                     Time: data.time,
-                    Description: data.desc,
+                    Description: data.description,
                     Longitude: data.long,
                     Latitude: data.lat
                 }
