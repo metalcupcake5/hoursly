@@ -10,8 +10,8 @@ app.use(express.static('public'));
 app.all('/', async (req, res) => {
     let fields = ['name', 'description', 'lat', 'long', 'hours', 'date', 'time'];
     let data = {}
-    for(const field of fields){
-        if(req.query[field]){
+    for (const field of fields) {
+        if (req.query[field]) {
             data[field] = req.query[field];
         }
     }
@@ -22,11 +22,11 @@ app.all('/', async (req, res) => {
         await sql.query('SELECT * FROM locationsdata WHERE Latitude = ? AND Longitude = ?', [data.lat, data.long], (err, result) => {
             if (err) {
                 console.log(err);
-                return res.render('index', { submission: true, message: "An error occured, please try again."});
+                return res.render('index', { submission: true, message: "An error occured, please try again." });
             }
 
             if (result.length !== 0) {
-                return res.render('index', { submission: true, message: "This spot is already taken! Please choose another!"});
+                return res.render('index', { submission: true, message: "This spot is already taken! Please choose another!" });
             } else {
                 const input = {
                     Name: data.name,
@@ -36,13 +36,18 @@ app.all('/', async (req, res) => {
                     Longitude: data.long,
                     Latitude: data.lat
                 }
-                sql.query('INSERT INTO locationsdata SET ?', input);
-                return res.render('submit');
+                sql.query('INSERT INTO locationsdata SET ?', input, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.render('index', { submission: true, message: "An error occured, please try again." });
+                    }
+                    return res.render('submit');
+                });
             }
         });
     } else {
         let message = null;
-        if(dataLength < 7){
+        if (dataLength < 7) {
             message = "You are missing some fields!";
         }
         res.render('index', { submission: submission, message: message });
