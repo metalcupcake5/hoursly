@@ -12,7 +12,6 @@ const con = mysql.createConnection({
 let sql = {};
 sql.query = function (query, params, callback) {
     con.query(query, params, function (error, results, fields) {
-        connection.release(); // always put connection back in pool after last query
         if (error) {
             if (callback) callback(error, null, null);
             return;
